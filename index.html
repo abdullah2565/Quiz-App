@@ -3,21 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quiz App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="quiz-guess-social-media-icon-in-flat-style-faq-illustration-on-isolated-background-help-button-sign-business-concept-vector-removebg-preview.png" type="image/png">
 </head>
 <body>
-<h1 class="title">welcome to my quiz app</h1>
-<hr class="linee">
+  <div class="main">
+    <h1>Quiz App</h1>
+    <hr>
+    <p id="questionCount">1 out of 20</p>
+    <div id="quizContainer"></div>
+    <div id="resultContainer" style="display: none">
+      <h1>Score</h1>
+    </div>
+    <div id="timer">00:30</div>
+    <button id="next-btn" disabled class="cssbuttons-io-button">
+      Next Question
+      <div class="icon">
+        <svg
+          height="24"
+          width="24"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0 0h24v24H0z" fill="none"></path>
+          <path
+            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+            fill="currentColor"
+          ></path>
+        </svg>
+      </div>
+    </button>
+    
 
-<div id="main"></div>
-<div id="resultdiv" style="display: none">
-  <h1>Score</h1>
 </div>
-<button id="next-btn" disabled>Next</button>
-</div>
-
-<script src="main.js"></script>
-
-</body>
+ 
+      <script src="main.js"></script>
+    </body>
 </html>

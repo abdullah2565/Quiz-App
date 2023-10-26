@@ -1,140 +1,215 @@
-const jsquestions = [
-    {
-      question: 'What is the correct syntax in JavaScript?',
-      choices: ['a. { }', 'b. [ ]', 'c. ( )', 'd. < >'],
-      correctAnswer: 'a. { }'
-    },
-    {
-      question: 'What is the use of the "==" operator in JavaScript?',
-      choices: ['a. Assignment', 'b. Comparison', 'c. Concatenation', 'd. Logical OR'],
-      correctAnswer: 'b. Comparison'
-    },
-    {
-      question: 'What is the difference between "let" and "var" in JavaScript?',
-      choices: ['a. Scope', 'b. Data Type', 'c. Variable Declaration', 'd. Looping'],
-      correctAnswer: 'a. Scope'
-    },
-    {
-      question: 'What does "NaN" mean in JavaScript?',
-      choices: ['a. Not a Number', 'b. New Arithmetic Number', 'c. Null and None', 'd. No Answer'],
-      correctAnswer: 'a. Not a Number'
-    },
-    {
-      question: 'What is the purpose of a "callback function" in JavaScript?',
-      choices: ['a. To handle asynchronous tasks', 'b. To draw shapes', 'c. To create arrays', 'd. To validate forms'],
-      correctAnswer: 'a. To handle asynchronous tasks'
-    },
-    {
-      question: 'What does "JSON" stand for in JavaScript?',
-      choices: ['a. JavaScript Object Notation', 'b. JavaScript Oriented Network', 'c. JavaScript Online Navigation', 'd. Java Standard Object Notation'],
-      correctAnswer: 'a. JavaScript Object Notation'
-    },
-    {
-      question: 'What is the use of the "typeof" operator in JavaScript?',
-      choices: ['a. To check data type', 'b. To create a new variable', 'c. To define a function', 'd. To perform addition'],
-      correctAnswer: 'a. To check data type'
-    },
-    {
-      question: 'What does "DOM" mean in JavaScript?',
-      choices: ['a. Document Object Model', 'b. Document Order Management', 'c. Data Object Model', 'd. Document Online Management'],
-      correctAnswer: 'a. Document Object Model'
-    },
-    {
-      question: 'What is a "closure" in JavaScript?',
-      choices: ['a. A function inside another function that has access to the outer function\'s variables', 'b. A loop that never ends', 'c. A conditional statement', 'd. A data structure'],
-      correctAnswer: 'a. A function inside another function that has access to the outer function\'s variables'
-    },
-    {
-      question: 'What does the "this" keyword refer to in JavaScript?',
-      choices: ['a. The current function', 'b. The previous function', 'c. The global object', 'd. The next function'],
-      correctAnswer: 'a. The current function'
-    }
-  ];
+const quiz = [
+  {
+      question: "How do you declare a constant variable in JavaScript?",
+      options: ["const", "let", "var"],
+      correctAnswer: "const"
+  },
+  {
+      question: "What is the purpose of 'typeof' operator in JavaScript?",
+      options: ["To check the type of a variable", "To create a new variable", "To loop through an array"],
+      correctAnswer: "To check the type of a variable"
+  },
+  {
+      question: "What is the use of 'NaN' in JavaScript?",
+      options: ["Represents a prime number", "Represents 'Not a Number'", "Represents infinity"],
+      correctAnswer: "Represents 'Not a Number'"
+  },
+  {
+      question: "How do you create a single-line comment in JavaScript?",
+      options: ["// This is a comment", "<!-- This is a comment -->", "/* This is a comment */"],
+      correctAnswer: "// This is a comment"
+  },
+  {
+      question: "What does the 'this' keyword refer to in JavaScript?",
+      options: ["It refers to the current function", "It refers to the global object", "It refers to the calling object"],
+      correctAnswer: "It refers to the calling object"
+  },
+  {
+      question: "What is the purpose of JavaScript's 'addEventListener' method?",
+      options: ["To remove an element from the DOM", "To add an event listener to an element", "To create a new element"],
+      correctAnswer: "To add an event listener to an element"
+  },
+  {
+      question: "What does the acronym 'JSON' stand for in JavaScript?",
+      options: ["JavaScript Object Notation", "Java Standard Object Notation", "JavaScript Oriented Networking"],
+      correctAnswer: "JavaScript Object Notation"
+  },
+  {
+      question: "What is the use of 'localStorage' in JavaScript?",
+      options: ["To store data in the user's browser", "To make HTTP requests", "To create animations"],
+      correctAnswer: "To store data in the user's browser"
+  },
+  {
+      question: "How can you convert a string to an integer in JavaScript?",
+      options: ["parseInt()", "stringToInteger()", "toInteger()"],
+      correctAnswer: "parseInt()"
+  },
+  {
+      question: "What is the purpose of JavaScript's 'fetch' API?",
+      options: ["To fetch coffee from a cafe", "To fetch data from a server", "To fetch images from a website"],
+      correctAnswer: "To fetch data from a server"
+  }
+];
+
+let currentQuestion = 0;
+let rightAnswers = 0;
+let wrongAnswers = 0;
+let userAnswer = undefined;
+
+const quizContainer = document.getElementById('quizContainer');
+const resultContainer = document.getElementById('resultContainer');
+const nextBtn = document.getElementById('next-btn');
+const timerElement = document.getElementById("timer");
+
+const showQuestion = () => {
+  quizContainer.innerHTML = '';
+  timerElement.textContent = '00:30';
+  nextBtn.disabled = true;
+
+  if (currentQuestion < quiz.length) {
+      let queDiv = document.createElement('div');
+      let h3 = document.createElement('h3');
+      h3.innerText = quiz[currentQuestion].question;
+      h3.className = 'quiz-question';
+      queDiv.appendChild(h3);
+      quiz[currentQuestion].options.forEach((data, index) => {
+          let optionDiv = document.createElement('div');
+          let input = document.createElement('input');
+          let label = document.createElement('label');
+          input.type = 'radio';
+          input.id = `option-${index}`;
+          input.name = 'quiz-option';
+          input.value = data;
+          input.className = 'selector';
+          label.innerText = data;
+          label.setAttribute('for', `option-${index}`);
+          input.addEventListener('change', function () {
+              userAnswer = this.value;
+              nextBtn.disabled = false;
+          });
+          optionDiv.appendChild(input);
+          optionDiv.appendChild(label);
+          optionDiv.className = 'quiz-option';
+          queDiv.appendChild(optionDiv);
+      });
+      quizContainer.appendChild(queDiv);
+  } else {
+      resultContainer.style.display = 'block';
+      showResult();
+      quizContainer.style.display = 'none';
+      nextBtn.style.display = 'none';
   
-  let currentQuestion = 0
-  let wrongAnswers = 0
-  let rightAnswers = 0
-  let userAnswer = 0
-
- const main = document.getElementById('main')
- const resultdiv = document.getElementById('resultdiv')
- const nextBtn = document.getElementById('next-btn')
-
- const showQuestion = () => {
-    main.innerHTML = null;
-    let questiondiv = document.createElement('div');
-    let h3 = document.createElement('h3');
-    h3.className = 'quizque';
-    h3.innerText = jsquestions[currentQuestion].question;
-    main.appendChild(h3);
-
-    jsquestions[currentQuestion].choices.map(data => {
-        let choicesdiv = document.createElement('div');
-        choicesdiv.className = 'choicedivclass';
-        let input = document.createElement('input');
-        input.type = 'radio';
-        input.name = 'quizchoices';
-        input.value = data;
-        input.addEventListener('change', function () {
-            userAnswer = this.value;
-            nextBtn.disabled = false;
-        });
-
-        let span = document.createElement('span');
-        span.innerText = data;
-
-        choicesdiv.appendChild(input);
-        choicesdiv.appendChild(span);
-        questiondiv.appendChild(choicesdiv);
-    });
-
-    main.appendChild(questiondiv);
+          
+  }
 };
 
- function checkValue(params) {
-    console.log(this)
- }
- showQuestion()
+showQuestion();
 
- nextBtn.addEventListener('click', nextquestion)
+nextBtn.addEventListener('click', showNextQuestion);
 
- function nextquestion(params) {
-    const question = jsquestions[currentQuestion]
-    if (userAnswer === question.choices) {
-        rightAnswers++
-    }else{
-        wrongAnswers++
-    }
-    if (currentQuestion + 1 < jsquestions.length) {
-        currentQuestion++
-      } else if (currentQuestion + 1 === jsquestions.length) {
-        resultdiv.style.display = 'block'
-        resultfuntion()
-        main.style.display = 'none'
-        nextBtn.style.display = 'none'
-      }
-      nextBtn.disabled = true
-    
-      showQuestion()
- }
+const countdownTime = 30;
+let timer = countdownTime;
+let timerInterval;
 
- function resultfuntion(params) {
-    resultdiv.innerHTML = null
-    const div = document.createElement('div')
-    const h1 = document.createElement('h1')
-    h1 .innerText = rightAnswers > wrongAnswers ? '"congratulation" you are pass' : 'sorry you are fali'
-    const rans = document.createElement('h3')
-    rans.innerText = 'right answers' + rightAnswers
-    const wans = document.createElement('h3')
-    wans.innerText = 'wrong answers' + wrongAnswers
-    const score = document.createElement('h3')
-    score.innerText = 'score' + rightAnswers * 10
-    
-    div.appendChild(h1)
-    div.appendChild(rans)
-    div.appendChild(wans)
-    div.appendChild(score)
-    resultdiv.appendChild(div)
-}  
 
+function updateTimer() {
+  const timerElement = document.getElementById("timer");
+
+  const minutes = Math.floor(timer / 60);
+  const seconds = timer % 60;
+
+  const minutesString = minutes < 10 ? "0" + minutes : minutes;
+  const secondsString = seconds < 10 ? "0" + seconds : seconds;
   
+  timerElement.textContent = minutesString + ":" + secondsString;
+
+  if (timer > 0) {
+      timer--;
+  } else {
+      clearInterval(timerInterval);
+      timerElement.textContent = "Time's up!";
+      showNextQuestion();
+      showQuestionCount();
+  }
+}
+const showQuestionCount = () => {
+  const questionCountElement = document.getElementById("questionCount");
+  questionCountElement.innerText = `${currentQuestion + 1} out of ${quiz.length}`;
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timer = countdownTime; 
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function showNextQuestion() {
+  const question = quiz[currentQuestion];
+  if (userAnswer === question.correctAnswer) {
+      rightAnswers++;
+  } else {
+      wrongAnswers++;
+  }
+
+  if (currentQuestion + 1 < quiz.length) {
+      currentQuestion++;
+      showQuestion();
+      showQuestionCountAndTimer()
+      startTimer(); 
+      showQuestionCount(); 
+  } else if (currentQuestion + 1 === quiz.length) {
+      resultContainer.style.display = "block";
+      showResult();
+      quizContainer.style.display = "none";
+      nextBtn.style.display = "none";
+  }
+
+  nextBtn.disabled = true;
+}
+
+
+
+startTimer();
+showQuestionCount()
+
+
+function showResult() {
+  resultContainer.innerHTML = '';
+  const div = document.createElement('div');
+  const h1 = document.createElement('h1');
+  if (rightAnswers > wrongAnswers) {
+      h1.innerText = 'You Win!';
+   
+  } else {
+      h1.innerText = 'Sorry! You Lost ';
+    
+  }
+  const rightH3 = document.createElement('h3');
+  rightH3.innerText = 'Right Answers ' + rightAnswers;
+  const score = document.createElement('h3');
+  score.innerText = 'Score ' + rightAnswers * 10;
+  const wrongH3 = document.createElement('h3');
+  wrongH3.innerText = 'Wrong Answers ' + wrongAnswers;
+  hideQuestionCountAndTimer();
+
+  div.appendChild(h1);
+  div.appendChild(rightH3);
+  div.appendChild(score);
+  div.appendChild(wrongH3);
+  resultContainer.appendChild(div);
+}
+
+function hideQuestionCountAndTimer() {
+  const questionCountElement = document.getElementById("questionCount");
+  const timerElement = document.getElementById("timer");
+  questionCountElement.style.display = "none";
+  timerElement.style.display = "none";
+}
+
+
+function showQuestionCountAndTimer() {
+  const questionCountElement = document.getElementById("questionCount");
+  const timerElement = document.getElementById("timer");
+  questionCountElement.style.display = "block";
+  timerElement.style.display = "block";
+}
